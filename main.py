@@ -23,7 +23,7 @@ def depthFirst():
         setOfAlreadyVisited.add(currentValue) #Check if the value has been already added
 
 
-def breathFirst():
+def breadthFirst():
     setOfAlreadyVisited = set()
     queue=deque()
     queue.append(list(graph.keys())[0]) # Add the initial graph item
@@ -44,4 +44,4 @@ for node, neighbors in graph.items():
 
 print(depthFirst())
 print("-----------------------------")
-print(breathFirst())
+print(breadthFirst())
