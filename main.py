@@ -5,10 +5,14 @@ from collections import deque
 graph = {
     "A": ["B"],
     "B": ["A", "C"],
-    "C": ["B"],
-    "D": ["E"],
-    "E": ["D", "F"],
-    "F": ["E"]
+    "C": ["B"],         # Componente 1: A-B-C
+
+    "D": ["E"],         # Componente 2: D-E
+    "E": ["D"],
+
+    "F": ["G", "H"],    # Componente 3: F-G-H
+    "G": ["F"],
+    "H": ["F"]
 }
 
 
@@ -52,6 +56,35 @@ def connectionDetection(node1Value,node2Value)->True:
         setOfAlreadyVisited.add(currentValue) #Check if the value has been already added
     return False
 
+def foundComponents()->list:
+    setOfAlreadyVisited = set()
+    list_OfComponents=[]
+    stack=deque()
+
+    for node in graph:
+        if node in setOfAlreadyVisited:
+            continue
+
+        actualSet=set()
+        
+        stack.append(node)
+
+        while stack:
+            actual=stack.pop()
+            if actual in setOfAlreadyVisited:
+                continue
+            
+            actualSet.add(actual)
+
+            stack.extend(graph[actual])
+            setOfAlreadyVisited.add(actual) #Check if the value has been already added
+
+        list_OfComponents.append(actualSet)
+
+    return list_OfComponents
+
+        
+
 
 
 
@@ -66,3 +99,4 @@ print("Is A connected to C? " + str(connectionDetection("A","C")))
 print("Is A connected to F? " + str(connectionDetection("A","F")))
 print("Is D connected to F? " + str(connectionDetection("D","F")))
 print("Is C connected to D? " + str(connectionDetection("C","D")))
+print(foundComponents())
